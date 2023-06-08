@@ -43,3 +43,7 @@ Route::get('/posts/{post}/edit', [PostController::class, 'edit']);
 
 //投稿編集保存
 Route::put('/posts/{post}', [PostController::class, 'update']);
+
+
+//投稿削除
+Route::delete('/posts/{post}', [PostController::class,'delete']);
