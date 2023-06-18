@@ -14,6 +14,8 @@ use App\Models\Post;
  * @return array Postモデルリスト
  */
  use App\Http\Requests\PostRequest; // useする
+ 
+ use App\Models\Category;
 
  class PostController extends Controller
  {
@@ -27,14 +29,8 @@ use App\Models\Post;
    {
      return view('posts.show')->with(['post' => $post]);
    }
-  
-  public function create()
-   {
-     return view('posts.create');
-   }
    
-  
-  public function store(Post $post, PostRequest $request) // 引数をRequestからPostRequestにする
+   public function store(Post $post, PostRequest $request) // 引数をRequestからPostRequestにする
      {
          $input = $request['post'];
          $post->fill($input)->save();
@@ -62,9 +58,9 @@ public function delete(Post $post)
 
  
  public function create(Category $category)
- {
-    return view('posts.create')->with(['categories' => $category->get()]);
- }
+{
+ return view('posts.create')->with(['categories' => $category->get()]);
+}
  
 }
 ?>
