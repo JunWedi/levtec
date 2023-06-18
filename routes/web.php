@@ -16,6 +16,8 @@ use App\Http\Controllers\PostController;
 |
 */
 
+use App\Http\Controllers\CategoryController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -47,3 +49,6 @@ Route::put('/posts/{post}', [PostController::class, 'update']);
 
 //投稿削除
 Route::delete('/posts/{post}', [PostController::class,'delete']);
+
+//カテゴリーのindexメソッドの呼び出し
+Route::get('/categories/{category}', [CategoryController::class,'index']);
