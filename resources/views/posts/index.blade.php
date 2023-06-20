@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+ <x-app-layout>
+    　<x-slot name="header">
+        　INDEX
     <head>
         <meta charset="utf-8">
         <title>Blog</title>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
+      </x-slot>
     <body>
         <h1>Blog Name</h1>
-        <a href='/posts/create'>create</a>
+        <a href='/posts/create'>[create]</a>
         <div class='posts'>
             @foreach ($posts as $post)
                 <div class='post'>
@@ -20,11 +24,12 @@
                     <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post">
                      @csrf
                      @method('DELETE')
-                     <button type="button" onclick="deletePost({{ $post->id }})">delete</button> 
+                     <button type="button" onclick="deletePost({{ $post->id }})">[delete]</button> 
                     </form>
                 </div>
             @endforeach
         </div>
+          <div>ユーザー名：{{ Auth::user()->name }}</div>
         <div class='paginate'>
             {{ $posts->links() }}
         </div>
@@ -38,4 +43,5 @@
     }
 </script>
     </body>
+　</x-app-layout>
 </html>

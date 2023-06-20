@@ -1,9 +1,13 @@
 <!DOCTYPE HTML>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <x-app-layout>
+    　<x-slot name="header">
+        　INDEX
     <head>
         <meta charset="utf-8">
         <title>Blog</title>
     </head>
+     </x-slot>
     <body>
           <h1 class="title">編集画面</h1>
     <div class="content">
@@ -25,4 +29,5 @@
              <a href="/">戻る</a>
             </div>
     </body>
+    </x-app-layout>
 </html>
