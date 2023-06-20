@@ -1,54 +1,32 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
-//外部のPostControllerクラスをインポート
-use App\Http\Controllers\PostController;  
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-use App\Http\Controllers\CategoryController;
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(PostController::class)->middleware(['auth'])->group(function(){
+    Route::get('/', 'index')->name('index');
+    Route::post('/posts', 'store')->name('store');
+    Route::get('/posts/create', 'create')->name('create');
+    Route::get('/posts/{post}', 'show')->name('show');
+    Route::put('/posts/{post}', 'update')->name('update');
+    Route::delete('/posts/{post}', 'delete')->name('delete');
+    Route::get('/posts/{post}/edit', 'edit')->name('edit');
 });
 
+Route::get('/categories/{category}', [CategoryController::class,'index'])->middleware("auth");
 
-//投稿一覧表示
-Route::get('/', [PostController::class, 'index']);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-
-//投稿作成画面
-Route::get('/posts/create', [PostController::class, 'create']);
-
-
-//投稿表示
-Route::get('/posts/{post}', [PostController::class ,'show']);
-
-
-//投稿作成
-Route::post('/posts', [PostController::class, 'store']);
-
-
-//投稿編集画面表示
-Route::get('/posts/{post}/edit', [PostController::class, 'edit']);
-
-
-//投稿編集保存
-Route::put('/posts/{post}', [PostController::class, 'update']);
-
-
-//投稿削除
-Route::delete('/posts/{post}', [PostController::class,'delete']);
-
-//カテゴリーのindexメソッドの呼び出し
-Route::get('/categories/{category}', [CategoryController::class,'index']);
+require __DIR__.'/auth.php';
